@@ -87,7 +87,6 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Column="1" Content="Button" HorizontalAlignment="Center" Margin="0,142,0,0" Grid.Row="6" VerticalAlignment="Top" Height="35" Width="102"/>
         <Button Grid.Column="5" x:Name="AddClient" Content="+" HorizontalAlignment="Center" Margin="0,500,0,0" Grid.Row="6" VerticalAlignment="Top" Width="558"/>
         <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,198,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.Name}" VerticalAlignment="Top" Width="120"/>
         <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,225,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.Surename}" VerticalAlignment="Top" Width="120"/>

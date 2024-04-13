@@ -8,10 +8,10 @@ namespace AbankHW12.Models.Client.BanckAcconts
 {
     abstract class BankAccount //класс для создания банковских счетов (название говорит само за себя)
     {
-        protected int id; //нужно для перевода, почти уникальное число 
-        protected string name;// имя депозитный или кредитный
-        protected string color; //будет два цвета синий-депозитный, красный - кредитный
-        protected int value=0;// ну тут ясно, денежки на счету
+        protected int id; 
+        protected string name;
+        protected string color; 
+        protected int value=0;
 
         public int ID { get {  return ID; }  }
         public string Name { get { return name; } }
