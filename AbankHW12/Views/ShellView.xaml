@@ -1,0 +1,100 @@
+﻿<Window x:Class="AbankHW12.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AbankHW12.Views"
+        xmlns:Converter="clr-namespace:AbankHW12.Models"
+        mc:Ignorable="d" FontSize="19"
+        Title="ShellView" Height="720" Width="720" WindowStartupLocation="CenterScreen" >
+
+    <Window.Resources>
+        <Converter:DynamicMaskedStringConverter x:Key="DynamicMaskedStringConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="1" MinWidth="100" MinHeight="50" Text="{Binding Path=Op.Name}" Foreground="{Binding Path= Op.Color}"></TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="2" MinWidth="10" MinHeight="10" x:Name="input" ></TextBox>
+        <Button Grid.Column="1" Grid.Row="3" MinWidth="10" MinHeight="10" x:Name="ChangeBankOperator" Content="Enter"></Button>
+        <DataGrid Grid.Column="5" MinHeight="600"  Grid.RowSpan="6" Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" FontSize="15" Height="531" VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="User Info:" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding Surename, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding FathersName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding PhoneNum, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding PassportNum, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}" Visibility="{Binding DataContext.CanChange,RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource boolToVis} }"/>
+                                <TextBox Text="**************" IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+
+                                <!--<TextBox IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                    <TextBox.Text>
+                                        <MultiBinding Converter="{StaticResource DynamicMaskedStringConverter}" >
+                                            <Binding Path="DataContext.CanChange" RelativeSource="{RelativeSource AncestorType=DataGrid}" />
+                                            <Binding Path="PassportNum"  UpdateSourceTrigger="PropertyChanged"/>
+                                        </MultiBinding>
+                                    </TextBox.Text>
+                                </TextBox>-->
+
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Deposit" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Deposit.Name}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Deposit.Value}" FontWeight="Bold" Foreground="{Binding deposit.Color}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Credit" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Credit.Name}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Credit.Value}" FontWeight="Bold" Foreground="{Binding notdeposit.Color}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Column="1" Content="Button" HorizontalAlignment="Center" Margin="0,142,0,0" Grid.Row="6" VerticalAlignment="Top" Height="35" Width="102"/>
+        <Button Grid.Column="5" x:Name="AddClient" Content="+" HorizontalAlignment="Center" Margin="0,500,0,0" Grid.Row="6" VerticalAlignment="Top" Width="558"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,198,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.Name}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,225,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.Surename}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,251,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.FathersName}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,278,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.PassportNum}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,305,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding SelectedClient.PhoneNum}" VerticalAlignment="Top" Width="120"/>
+        
+
+    </Grid>
+</Window>
