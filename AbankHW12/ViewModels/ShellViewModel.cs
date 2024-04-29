@@ -16,21 +16,21 @@ using System.Windows.Markup;
 
 namespace AbankHW12.ViewModels
 {
-    internal class ShellViewModel : Screen // Основаная  View Model
+    internal class ShellViewModel : Screen //   View Model
     {
         #region переменные, и прочие данные 
 
         private BankOperator BANKo = new Consultant();
-        private string Input = "password";//то-что ввёл пользователь
-        private string password = "pass"; // пароль для входа
+        private string Input = "password";//User input
+        private string password = "pass"; // actual password
         private bool canchange = true;
         private Client selectedClient;
 
         private Visibility SUInteface = Visibility.Collapsed;
-        private Visibility OrdinaryInteface = Visibility.Collapsed;
+        private Visibility OrdinaryInteface = Visibility.Visible;
 
-        public Visibility SUInter { get { return SUInteface; } }
-        public Visibility Inter { get { return OrdinaryInteface; } }
+        public Visibility SUInter { get { return SUInteface; } set{ SUInteface = value; NotifyOfPropertyChange(() => SUInter); } }
+        public Visibility OInter { get { return OrdinaryInteface; }set{ OrdinaryInteface = value; NotifyOfPropertyChange(() => OInter); } }
 
         private ObservableCollection<Client> clients = new ObservableCollection<Client> 
         {
@@ -72,8 +72,8 @@ namespace AbankHW12.ViewModels
                 Console.Beep(100, 100);
                 input = "";
 
-                SUInteface = Visibility.Visible;
-                OrdinaryInteface = Visibility.Collapsed;
+                SUInter = Visibility.Collapsed;
+                OInter = Visibility.Visible;
 
                 CanChange = true;
                 
@@ -87,8 +87,8 @@ namespace AbankHW12.ViewModels
                     Console.Beep(150, 100);
                     input = "";
 
-                    SUInteface = Visibility.Collapsed;
-                    OrdinaryInteface = Visibility.Visible;
+                    SUInter = Visibility.Visible;
+                    OInter = Visibility.Collapsed;
 
                     CanChange = false;
 
@@ -106,7 +106,9 @@ namespace AbankHW12.ViewModels
 
         public void AddClient()
         {
-            clients.Add(new Client(null, null, null, 0000000000, null));
+            clients.Add(new Client(null, null, null, 0, null));
+
+            SelectedClient = clients.Last();
         }
     }
 }
