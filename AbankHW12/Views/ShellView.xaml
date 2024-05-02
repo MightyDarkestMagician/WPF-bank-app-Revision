@@ -34,10 +34,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="1" Grid.Column="1" MinWidth="100" MinHeight="50" Text="{Binding Path=Operator.Name}" Foreground="{Binding Path= Operator.Color}"></TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" MinWidth="10" MinHeight="10" x:Name="UserInput" ></TextBox>
-        <Button Grid.Column="1" Grid.Row="3" MinWidth="10" MinHeight="10" x:Name="ChangeBankOperator" Content="Enter"></Button>
-        <DataGrid Grid.Column="5" MinHeight="600"  Grid.RowSpan="6" Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" FontSize="15" Height="531" VerticalAlignment="Top">
+        
+		<TextBlock Grid.Row="1"  Grid.Column="1" MinWidth="100" MinHeight="50" Text="{Binding Path=Operator.Name}" Foreground="{Binding Path= Operator.Color}"></TextBlock>
+        <TextBox Grid.Column="1"    Grid.Row="2" MinWidth="10"  MinHeight="10" x:Name="UserInput" ></TextBox>
+        <Button Grid.Column="1"     Grid.Row="3" MinWidth="10"  MinHeight="10" x:Name="ChangeBankOperator" Content="Enter"></Button>
+        
+		<DataGrid Grid.Column="5" MinHeight="600"  Grid.RowSpan="6" Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" FontSize="15" Height="531" VerticalAlignment="Top">
             
 			
 			<DataGrid.Columns>
@@ -64,7 +66,7 @@
 							<StackPanel>
 								<!-- Использованы AccountName и Balance из DepositAccount -->
 								<TextBlock Text="{Binding DepositAccount.AccountName}" FontWeight="Bold" />
-								<TextBlock Text="{Binding DepositAccount.Balance}" FontWeight="Bold" Foreground="{Binding DepositAccount.Color}"/>
+								<TextBlock Text="{Binding DepositAccount.Balance}"     FontWeight="Bold" Foreground="{Binding DepositAccount.Color}"/>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -77,7 +79,7 @@
 							<StackPanel>
 								<!-- Использованы AccountName и Balance из CreditAccount -->
 								<TextBlock Text="{Binding CreditAccount.AccountName}" FontWeight="Bold" />
-								<TextBlock Text="{Binding CreditAccount.Balance}" FontWeight="Bold" Foreground="{Binding CreditAccount.Color}"/>
+								<TextBlock Text="{Binding CreditAccount.Balance}"     FontWeight="Bold" Foreground="{Binding CreditAccount.Color}"/>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
