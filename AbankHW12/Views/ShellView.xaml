@@ -37,7 +37,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         
-		<TextBlock  Grid.Row    = "1"     Grid.Column = "1"  MinWidth="100" MinHeight="50" Text="{Binding Path=Operator.Name}" Foreground="{Binding Path= Operator.Color}"></TextBlock>
+        <TextBlock  Grid.Row    = "1"     Grid.Column = "1"  MinWidth="100" MinHeight="50" Text="{Binding Path=Operator.Name}" Foreground="{Binding Path= Operator.Color}"></TextBlock>
         <TextBox    Grid.Column = "1"     Grid.Row    = "2"  MinWidth="10"  MinHeight="10" x:Name="UserInput" ></TextBox>
         <Button     Grid.Column = "1"     Grid.Row    = "3"  MinWidth="10"  MinHeight="10" x:Name="ChangeBankOperator" Content="Enter"></Button>
         
