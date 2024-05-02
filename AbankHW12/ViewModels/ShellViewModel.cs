@@ -52,14 +52,14 @@ namespace AbankHW12.ViewModels
     {
         // Описание переменных с аннотациями о их назначении в коде
         private BankOperator bankOperator = new Consultant();           // Оператор по умолчанию - Консультант
-        private string userInput = "password";                          // Переменная для хранения ввода пользователя
+        private string userInput = "password";                          // Переменная для хранения ввода пользователя (изменен с input)
         private string actualPassword = "pass";                         // Реальный пароль для доступа к функциям суперпользователя
-        private bool canModify = true;                                  // Флаг разрешения на изменения в интерфейсе
+        private bool canModify = true;                                  // Флаг разрешения на изменения в интерфейсе (изменен с CanChange)
         private Client selectedClient;                                  // Выбранный клиент для отображения/редактирования данных
 
         // Управление видимостью элементов интерфейса
-        private Visibility superUserInterface = Visibility.Collapsed;  // Интерфейс суперпользователя скрыт по умолчанию
-        private Visibility ordinaryInterface = Visibility.Visible;     // Обычный интерфейс виден по умолчанию
+        private Visibility superUserInterface = Visibility.Collapsed;   // Интерфейс суперпользователя скрыт по умолчанию
+        private Visibility ordinaryInterface = Visibility.Visible;      // Обычный интерфейс виден по умолчанию
 
         // Свойства, связанные с элементами управления в интерфейсе
         public Visibility SuperUserInterface        
@@ -95,35 +95,81 @@ namespace AbankHW12.ViewModels
             new Client("Jane", "Smith", "Locky", 584247681, "BSY723", 200000, 782),
         };
 
+        /// <summary> Свойство Clients
+        /// Тип: ObservableCollection<Client>
+        /// Это коллекция, которая хранит объекты Client. 
+        /// ObservableCollection автоматически генерирует уведомления при добавлении, удалении элементов или обновлении 
+        /// всей коллекции, что полезно для обновления пользовательского интерфейса при изменении данных.
+        /// 
+        /// Getter: Возвращает текущее значение приватного поля clients.
+        /// Setter: Устанавливает новое значение для clients и отправляет уведомление об изменении свойства, 
+        /// что позволяет обновить привязанные элементы интерфейса, зависящие от этого свойства.
+        /// </summary>
         public ObservableCollection<Client> Clients
         {
+            /// <summary> Метод NotifyOfPropertyChange
+            /// Метод NotifyOfPropertyChange() вызывается в каждом сеттере и является частью механизма уведомлений о изменении свойства, 
+            /// который используется для автоматического обновления пользовательского интерфейса при изменении данных.
+            /// Это позволяет динамически реагировать на изменения данных без необходимости ручного обновления элементов интерфейса.
+            /// </summary>
             get { return clients; }
             set { clients = value; NotifyOfPropertyChange(() => Clients); }
         }
 
+        /// <summary> Свойство SelectedClient
+        /// Тип: Client
+        /// Содержит ссылку на выбранного клиента в пользовательском интерфейсе.
+        /// 
+        /// Getter: Возвращает текущего выбранного клиента.
+        /// Setter: Устанавливает нового выбранного клиента и оповещает систему о необходимости обновления интерфейса.
+        /// </summary>
         public Client SelectedClient
         {
             get { return selectedClient; }
             set { selectedClient = value; NotifyOfPropertyChange(() => SelectedClient); }
         }
 
+        /// <summary> Свойство Operator
+        /// Тип: BankOperator
+        /// Хранит информацию о текущем операторе банка (например, менеджер или консультант).
+        /// 
+        /// Getter: Возвращает текущее значение bankOperator.
+        /// Setter: Устанавливает новое значение для bankOperator и генерирует уведомление о его изменении.
+        /// </summary>
         public BankOperator Operator
         {
             get { return bankOperator; }
             set { bankOperator = value; NotifyOfPropertyChange(() => Operator); }
         }
 
-        public string UserInput
+        /// <summary> Свойство UserInput
+        /// Тип: string
+        /// Содержит ввод пользователя, который может использоваться, например, для аутентификации.
+        /// 
+        /// Getter: Возвращает текущее значение ввода пользователя.
+        /// Setter: Устанавливает новое значение ввода пользователя и оповещает об изменении.
+        /// </summary>
+        public string UserInput // изменен с input
         {
             get { return userInput; }
             set { userInput = value; NotifyOfPropertyChange(() => UserInput); }
         }
 
-        public bool CanModify
+        /// <summary>Свойство CanModify
+        /// Тип: bool
+        /// Флаг, указывающий, может ли пользователь изменять данные.
+        /// 
+        /// Getter: Возвращает, разрешено ли изменение данных.
+        /// Setter: Устанавливает новое значение разрешения и оповещает об изменении.
+        /// </summary>
+        public bool CanModify // изменен с CanChange
         {
             get { return canModify; }
             set { canModify = value; NotifyOfPropertyChange(() => CanModify); }
         }
+
+
+
 
         // Методы для изменения состояния и реакции на пользовательский ввод
         public void ChangeBankOperator()

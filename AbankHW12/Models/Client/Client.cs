@@ -29,7 +29,7 @@ namespace AbankHW12.Models.Client
     {
         private string  firstName;                          // Имя клиента
         private string  lastName;                           // Изменили имя переменной c sureName
-        private string  patronymic;                         // Отчество (вместо fathersName, если приложение для иностранцев, нужно будет изменить на middleName)
+        private string  patronymic;                         // Отчество (вместо fathersName, но если приложение для иностранцев, нужно будет изменить на middleName)
         private string  passportNumber;                     // Номер паспорта
         private int     phoneNumber;                        // Телефонный номер
 

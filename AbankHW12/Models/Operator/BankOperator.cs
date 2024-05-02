@@ -26,11 +26,11 @@ namespace AbankHW12.Models.Operator
     /// позволяя легко расширять функциональность и добавлять новые типы операторов с уникальными свойствами и поведением.
     /// </summary>
     
-    abstract class BankOperator                 // Добавление "операторов", можно добавить больше инструментария
+    abstract class BankOperator                     // Добавление "операторов", можно добавить больше инструментария
     {
-        private bool isSuperUser = false;       // По умолчанию выключено, указывает на отсутствие расширенных прав
-        private string name = "Default";        // Имя оператора, "Default" как начальное значение
-        private string color = "Black";         // Цвет, ассоциируемый с оператором, используется для UI
+        private bool isSuperUser = false;           // По умолчанию выключено, указывает на отсутствие расширенных прав
+        private string name = "Default";            // Имя оператора, "Default" как начальное значение
+        private string color = "Black";             // Цвет, ассоциируемый с оператором, используется для UI
 
         public string Name      { get => name;        protected set => name = value; }              // Свойство для получения и установки имени оператора
         public string Color     { get => color;       protected set => color = value; }             // Свойство для получения и установки цвета
