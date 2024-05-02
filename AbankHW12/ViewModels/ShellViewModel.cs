@@ -1,5 +1,5 @@
 ﻿using AbankHW12.Models.Client;
-using AbankHW12.Models.opeator;
+using AbankHW12.Models.Operator;
 using AbankHW12.Views;
 using Caliburn.Micro;
 using System;
@@ -16,24 +16,37 @@ using System.Windows.Markup;
 
 namespace AbankHW12.ViewModels
 {
-    internal class ShellViewModel : Screen //   View Model
+    /// <summary>
+    /// ViewModel for the main window ("Shell") of the application.
+    /// </summary>
+    internal class ShellViewModel : Screen
     {
-        #region переменные, и прочие данные 
+        // Раздел переменных и состояний
+        private BankOperator bankOperator = new Consultant();                   // Изменил название для соответствия стилю CamelCase
+        private string userInput = "password";                                  // Переименовано для ясности: что это ввод пользователя
+        private string actualPassword = "pass";                                 // Ясное отражение назначения переменной
+        private bool canModify = true;                                          // Более понятное название
+        private Client selectedClient;                                          // Текущий выбранный клиент
 
-        private BankOperator BANKo = new Consultant();
-        private string Input = "password";//User input
-        private string password = "pass"; // actual password
-        private bool canchange = true;
-        private Client selectedClient;
+        // Управление видимостью интерфейсов в зависимости от роли пользователя
+        private Visibility superUserInterface = Visibility.Collapsed;           // Переименовано для ясности
+        private Visibility ordinaryInterface = Visibility.Visible;              // Переименовано для ясности
 
-        private Visibility SUInteface = Visibility.Collapsed;
-        private Visibility OrdinaryInteface = Visibility.Visible;
-
-        public Visibility SUInter { get { return SUInteface; } set{ SUInteface = value; NotifyOfPropertyChange(() => SUInter); } }
-        public Visibility OInter { get { return OrdinaryInteface; }set{ OrdinaryInteface = value; NotifyOfPropertyChange(() => OInter); } }
-
-        private ObservableCollection<Client> clients = new ObservableCollection<Client> 
+        // Свойства для привязки и уведомления об изменениях
+        public Visibility SuperUserInterface
         {
+            get { return superUserInterface; }
+            set { superUserInterface = value; NotifyOfPropertyChange(() => SuperUserInterface); }
+        }
+        public Visibility OrdinaryInterface
+        {
+            get { return ordinaryInterface; }
+            set { ordinaryInterface = value; NotifyOfPropertyChange(() => OrdinaryInterface); }
+        }
+
+        // Коллекция клиентов с уведомлением об изменениях
+        private ObservableCollection<Client> clients = new ObservableCollection<Client>
+         {
             new Client("John", "Doe", "John Sr.", 123456789, "ABC123", 1000, 500),
             new Client("Jane", "Smith", "Jane Sr.", 987654321, "XYZ789", 2000, 750),
             new Client("Davie", "Homel", "Bob", 567183545, "MOE703", 10000, 0),
@@ -52,63 +65,87 @@ namespace AbankHW12.ViewModels
             new Client("Jane", "Smith", "Locky", 584247681, "BSY723", 200000, 782),
         };
 
-        public ObservableCollection<Client> Clients {  get { return clients; } set { Clients = value; NotifyOfPropertyChange(() => Clients); } }
+        public ObservableCollection<Client> Clients
+        {
+            get { return clients; }
+            set { clients = value; NotifyOfPropertyChange(() => Clients); }                     
+        }
 
-        public Client SelectedClient {  get { return selectedClient; } set { selectedClient = value; NotifyOfPropertyChange(() => SelectedClient); } }
-        public BankOperator Op { get { return BANKo; } set { BANKo = value; NotifyOfPropertyChange(() => Op); } }
-        public string input { get { return Input; } set { Input = value; NotifyOfPropertyChange(() => input); } }
+        public Client SelectedClient
+        {
+            get { return selectedClient; }
+            set { selectedClient = value; NotifyOfPropertyChange(() => SelectedClient); }
+        }
 
-        public bool CanChange {  get { return canchange; } set {canchange=value; NotifyOfPropertyChange(() => CanChange); } }
+        public BankOperator Operator                                                            // измененно на Operator c Op  
+        {
+            get { return bankOperator; }                                                        // измененно на bankOperator c BANKo 
+            set { bankOperator = value; NotifyOfPropertyChange(() => Operator); }
+        }
+            
+        public string UserInput                                                                 // измененно на UserInput с input 
+        {
+            get { return userInput; }
+            set { userInput = value; NotifyOfPropertyChange(() => UserInput); }
+        }
 
-        
-        #endregion
+        public bool CanModify                                                                   // измененно на CanModify с CanChange 
+        {
+            get { return canModify; }
+            set { canModify = value; NotifyOfPropertyChange(() => CanModify); }
+        }
 
+        // Методы для логики изменения состояния приложения
         public void ChangeBankOperator()
         {
-            if (Op.SU)
+            if (Operator.IsSuperUser)                               // В BankOperator измененно свойство SU на IsSuperUser
             {
-                Op = new Consultant();
-                Console.Beep(150, 100); // ха-ха программа делвет бип-бип
-                Console.Beep(100, 100);
-                input = "";
+                Operator = new Consultant();
+                PlayBeepSound();
+                UserInput = "";
 
-                SUInter = Visibility.Collapsed;
-                OInter = Visibility.Visible;
+                SuperUserInterface = Visibility.Collapsed;          // Изменено с SUInter
+                OrdinaryInterface = Visibility.Visible;             // Изменено с OInter 
 
-                CanChange = true;
-                
+                CanModify = true;                                   // Изменение с CanChange  
             }
             else
             {
-                if (Input == password)
+                if (UserInput == actualPassword)
                 {
-                    Op = new Manager();
-                    Console.Beep(100, 100);
-                    Console.Beep(150, 100);
-                    input = "";
+                    Operator = new Manager();
+                    PlayBeepSound();
+                    UserInput = "";
 
-                    SUInter = Visibility.Visible;
-                    OInter = Visibility.Collapsed;
+                    SuperUserInterface = Visibility.Visible;         // Изменено с SUInter
+                    OrdinaryInterface = Visibility.Collapsed;        // Изменено с OInter 
 
-                    CanChange = false;
-
+                    CanModify = false;                               // Изменение с CanChange  
                 }
-
                 else
                 {
-                    input = "";
-                    Console.Beep(100, 40);
-
+                    UserInput = "";
+                    Console.Beep(100, 40); // Error beep
                 }
-                
             }
         }
 
+        /// <summary>
+        /// Plays a beep sound to indicate a change in state or an action. Добавлен отдельным методом. 
+        /// </summary>
+        private void PlayBeepSound()
+        {
+            Console.Beep(150, 100); // Higher pitch beep
+            Console.Beep(100, 100); // Lower pitch beep
+        }
+
+        /// <summary>
+        /// Adds a new blank client to the collection.
+        /// </summary>
         public void AddClient()
         {
-            clients.Add(new Client(null, null, null, 0, null));
-
-            SelectedClient = clients.Last();
+            Clients.Add(new Client(null, null, null, 0, null));
+            SelectedClient = Clients.Last();
         }
     }
 }

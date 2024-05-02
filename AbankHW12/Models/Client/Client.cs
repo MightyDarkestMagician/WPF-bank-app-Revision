@@ -1,4 +1,4 @@
-﻿using AbankHW12.Models.Client.BanckAcconts;
+﻿using AbankHW12.Models.Client.BankAccounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,41 +9,39 @@ using System.Threading.Tasks;
 
 namespace AbankHW12.Models.Client
 {
-    class Client 
+    public class Client
     {
-        private string name;
-        private string sureName;
-        private string fathersName;
-        private string passportNum;
+        private string  firstName;
+        private string  lastName;            // Изменили имя переменной c sureName
+        private string  patronymic;          // Отчество (вместо fathersName, если приложение для иностранцев, нужно будет изменить на middleName)
+        private string  passportNumber;
+        private int     phoneNumber;
 
-        private Deposit deposit = new Deposit();
-        private Credit credit = new Credit();
+        private Deposit depositAccount = new Deposit();
+        private Credit creditAccount = new Credit();
 
-        public string Name { get { return this.name; }set { this.name = value; } }
-        public string Surename { get { return this.sureName; }set { this.sureName = value; } }
-        public string FathersName { get { return this.fathersName; } set { this.fathersName = value; } }
-        public string PassportNum { get { return this.passportNum; } set { this.passportNum = value; } }
-        public int PhoneNum { get; set; }
-        public Deposit Deposit { get { return this.deposit; } }
-        public Credit Credit { get { return this.credit; } }
+        public string   FirstName       { get => firstName;      set => firstName = value; }
+        public string   LastName        { get => lastName;       set => lastName = value; }                    // Изменили свойство
+        public string   Patronymic      { get => patronymic;     set => patronymic = value; }                  // Используем для отчества 
+        public string   PassportNumber  { get => passportNumber; set => passportNumber = value; }       
+        public int      PhoneNumber     { get => phoneNumber;    set => phoneNumber = value; }
+        public Deposit  DepositAccount  { get => depositAccount; }
+        public Credit   CreditAccount   { get => creditAccount; }
 
-
-        public Client(string Name, string Surename, string FathersName, int Phone, string Passport)
+        public Client(string firstName, string lastName, string patronymic, int phoneNumber, string passportNumber)
         {
-            
-        }
-        public Client(string Name, string Surename, string FathersName, int Phone, string Passport, int val1, int val2)
-        {
-            this.name = Name;
-            this.sureName = Surename;
-            this.fathersName = FathersName;
-            this.PhoneNum = Phone;
-            this.passportNum = Passport;
-            this.deposit.put(val1);
-            this.credit.put(val2);
-
+            this.firstName      = firstName;                // Исправлено для соответствия новому имени переменной
+            this.lastName       = lastName;                 // Исправлено для соответствия новому имени переменной
+            this.patronymic     = patronymic;               // Исправлено для соответствия новому имени переменной
+            this.phoneNumber    = phoneNumber;              // Исправлено для соответствия новому имени переменной
+            this.passportNumber = passportNumber;           // Исправлено для соответствия новому имени переменной
         }
 
-
+        public Client(string firstName, string lastName, string patronymic, int phoneNumber, string passportNumber, int depositAmount, int creditAmount)
+            : this(firstName, lastName, patronymic, phoneNumber, passportNumber)
+        {
+            depositAccount.Deposit(depositAmount);
+            creditAccount.Deposit(creditAmount);
+        }
     }
 }
