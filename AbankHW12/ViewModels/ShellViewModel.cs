@@ -1,4 +1,5 @@
 ﻿using AbankHW12.Models.Client;
+using AbankHW12.Models.Client.BankAccounts;
 using AbankHW12.Models.Operator;
 using AbankHW12.Views;
 using Caliburn.Micro;
@@ -73,6 +74,21 @@ namespace AbankHW12.ViewModels
             get { return ordinaryInterface; }
             set { ordinaryInterface = value; NotifyOfPropertyChange(() => OrdinaryInterface); }
         }
+
+        // Свойства связанные с переводом суммы денег между счетами и клиентами
+        private Client sendFromClient;          // Клиент с чёта которого будет отправлена сумма
+        private Client sendToClient;            // Клиент на чёта которого будет отправлена сумма
+        private BankAccount sendFromAccount;    // Счёт с которого будет отправлена сумма
+        private BankAccount sendToAccount;      // Счёт на который будет отправлена сумма
+        private int sendAmmount = 0;            // Сумма, которая будет отправлена
+
+        public Client SendFromClient { get { return sendFromClient; } set { sendFromClient = value; NotifyOfPropertyChange(() => SendFromClient); } }
+        public Client SendToClient { get { return sendToClient; } set { sendToClient = value; NotifyOfPropertyChange(() => SendToClient); } }
+        public BankAccount SendFromAccount { get { return sendFromAccount; } set { sendFromAccount = value; NotifyOfPropertyChange(() => SendFromAccount); } }
+        public BankAccount SendToAccount { get { return sendToAccount; } set { sendToAccount = value; NotifyOfPropertyChange(() => SendToAccount); } }
+        public int SendAmmount { get { return sendAmmount; } set { sendAmmount = value; NotifyOfPropertyChange(() => SendAmmount); } }
+
+
 
         // Коллекция клиентов с уведомлением об изменениях
         private ObservableCollection<Client> clients = new ObservableCollection<Client>
@@ -218,6 +234,49 @@ namespace AbankHW12.ViewModels
         {
             Clients.Add(new Client(null, null, null, 0, null));
             SelectedClient = Clients.Last();
+
+            Update();
+        }
+
+        /// <summary>
+        /// Перевод суммы между считами двух клиентов или двумя считами счетами одного клиента
+        /// </summary>
+        public void Send()
+        {
+            if (SendFromAccount == null || SendToAccount == null) { }
+            else
+            {
+                SendFromAccount.Withdraw(SendAmmount);
+                SendToAccount.Put(SendAmmount);
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Функция отвечающая за 
+        /// </summary>
+        public void Switch()
+        {
+            Client c = SendFromClient;
+            BankAccount a = SendFromAccount;
+
+            SendFromAccount = SendToAccount;
+            SendFromClient = SendToClient;
+
+            SendToClient = c;
+            SendToAccount = a;
+        }
+
+        /// <summary>
+        /// Функция перезаписывающая значение Clients, что позволяет обновить данные в отображаемой таблице
+        /// </summary>
+        private void Update()
+        {
+            ObservableCollection<Client> c = Clients;
+            Clients = null;
+            Clients = c;
+            c = null;
+            NotifyOfPropertyChange(() => Clients);
         }
     }
 }

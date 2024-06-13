@@ -15,7 +15,6 @@
     </Window.Resources>
 
     <Grid>
-		
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="auto" />
@@ -25,7 +24,6 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-		
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
@@ -36,61 +34,70 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock  Grid.Row    = "1"     Grid.Column = "1"  MinWidth="100" MinHeight="50" Text="{Binding Path=Operator.Name}" Foreground="{Binding Path= Operator.Color}"></TextBlock>
-        <TextBox    Grid.Column = "1"     Grid.Row    = "2"  MinWidth="10"  MinHeight="10" x:Name="UserInput" ></TextBox>
-        <Button     Grid.Column = "1"     Grid.Row    = "3"  MinWidth="10"  MinHeight="10" x:Name="ChangeBankOperator" Content="Enter"></Button>
-        
-		<DataGrid Grid.Column="5" MinHeight="600"  Grid.RowSpan="6" Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" FontSize="15" Height="531" VerticalAlignment="Top">
-            
-			
-			<DataGrid.Columns>
+        <TextBlock  Grid.Column="1"     Grid.Row="1"    MinWidth="100"  MinHeight="50"                                  Text="{Binding Path=Op.Name}"                                                                                                                                                                                                                                                           Foreground="{Binding Path= Op.Color}"></TextBlock>
+        <TextBox    Grid.Column="1"     Grid.Row="2"    MinWidth="10"   MinHeight="10"  x:Name="UserInput" ></TextBox>
+        <TextBox    Grid.Column="5"     Grid.Row="6"    MinWidth="120"                                                  Text="{Binding SendAmmount, UpdateSourceTrigger=PropertyChanged}"                                   HorizontalAlignment="Center"    VerticalAlignment="Top"                                     Margin="0,498,0,0"                                                                      TextWrapping="Wrap"/>
+
+
+        <Button     Grid.Column="1"     Grid.Row="3"    MinWidth="10"   MinHeight="10"  x:Name="ChangeBankOperator"     Content="Enter"></Button>
+        <Button     Grid.Column="5"     Grid.Row="6"    Width="558"                     x:Name="AddClient"              Content="+"                                                                                         HorizontalAlignment="Center"    VerticalAlignment="Top"                                     Margin="0,416,0,0"                                                                      Visibility="{Binding SuperUserInterface}"/>
+        <Button     Grid.Column="5"     Grid.Row="6"    Width="48"      Height="27"     x:Name="Send"                   Content="=>"                                                                                        HorizontalAlignment="Center"    VerticalAlignment="Top"                                     Margin="0,467,0,0"          BorderBrush="Transparent"   Background="Transparent"/>
+        <Button     Grid.Column="5"     Grid.Row="6"    Width="24"      Height="22"     x:Name="Switch"                 Content="⬌"                                                                                         HorizontalAlignment="Center"    VerticalAlignment="Top"     VerticalContentAlignment="Top"  Margin="0,445,0,0"          BorderBrush="Transparent"   Background="Transparent"/>
+
+        <ComboBox   Grid.Column="5"     Grid.Row="6"    Width="261"     Height="30"     ItemsSource="{Binding Clients}"                         DisplayMemberPath="Info"    SelectedItem="{Binding SendFromClient}"     HorizontalAlignment="Left"      VerticalAlignment="Top"                                     Margin="0,458,309,0"/>
+        <ComboBox   Grid.Column="5"     Grid.Row="6"    Width="261"     Height="30"     ItemsSource="{Binding Clients}"                         DisplayMemberPath="Info"    SelectedItem="{Binding SendToClient}"       HorizontalAlignment="Right"     VerticalAlignment="Top"                                     Margin="309,458,0,0"/>
+        <ComboBox   Grid.Column="5"     Grid.Row="6"    Width="159"     Height="31"     ItemsSource="{Binding SendFromClient.BankAccounts}"     DisplayMemberPath="Info"    SelectedItem="{Binding SendFromAccount}"    HorizontalAlignment="Left"      VerticalAlignment="Top"                                     Margin="0,497,51,0"/>
+        <ComboBox   Grid.Column="5"     Grid.Row="6"    Width="159"     Height="31"     ItemsSource="{Binding SendToClient.BankAccounts}"       DisplayMemberPath="Info"    SelectedItem="{Binding SendToAccount}"      HorizontalAlignment="Right"     VerticalAlignment="Top"                                     Margin="51,497,0,0"/>
+
+
+        <DataGrid   Grid.Column="5"     Grid.Row="1"    Grid.RowSpan="6" Margin="10,0,10,0" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" FontSize="15" Height="512" VerticalAlignment="Top">
+            <DataGrid.Columns>
                 <DataGridTemplateColumn Header="User Info:" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBox Text="{Binding FirstName,      UpdateSourceTrigger=PropertyChanged}"     IsReadOnly="{Binding DataContext.CanModify, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                <TextBox Text="{Binding LastName,       UpdateSourceTrigger=PropertyChanged}"     IsReadOnly="{Binding DataContext.CanModify, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                <TextBox Text="{Binding Patronymic,     UpdateSourceTrigger=PropertyChanged}"     IsReadOnly="{Binding DataContext.CanModify, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                <TextBox Text="{Binding PhoneNumber,    UpdateSourceTrigger=PropertyChanged}"/>
-                                <TextBox Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}"     IsReadOnly="{Binding DataContext.CanModify, RelativeSource={RelativeSource AncestorType=DataGrid}}" Visibility="{Binding DataContext.SuperUserInterface, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                <TextBox Text="**************"                                                    IsReadOnly="{Binding DataContext.CanModify, RelativeSource={RelativeSource AncestorType=DataGrid}}" Visibility="{Binding DataContext.OrdinaryInterface,  RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-
+                                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"        IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"         IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}"       IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}"   IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"     Visibility="{Binding DataContext.SuperUserInterface, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                <TextBox Text="**************"                                                  IsReadOnly="{Binding DataContext.CanChange, RelativeSource={RelativeSource AncestorType=DataGrid}}"     Visibility="{Binding DataContext.OrdinaryInterface, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-				
 
-				<DataGridTemplateColumn Header="Deposit" Width="auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<!-- Использованы AccountName и Balance из DepositAccount -->
-								<TextBlock Text="{Binding DepositAccount.AccountName}" FontWeight="Bold" />
-								<TextBlock Text="{Binding DepositAccount.Balance}"     FontWeight="Bold" Foreground="{Binding DepositAccount.Color}"/>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				
 
-				<DataGridTemplateColumn Header="Credit" Width="auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<!-- Использованы AccountName и Balance из CreditAccount -->
-								<TextBlock Text="{Binding CreditAccount.AccountName}" FontWeight="Bold" />
-								<TextBlock Text="{Binding CreditAccount.Balance}"     FontWeight="Bold" Foreground="{Binding CreditAccount.Color}"/>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bank Accounts" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGrid ItemsSource="{Binding BankAccounts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Column="5" x:Name="AddClient" Content="+" HorizontalAlignment="Center" Margin="0,500,0,0" Grid.Row="6" VerticalAlignment="Top" Width="558" Visibility="{Binding SuperUserInterface}"/>
-
-
     </Grid>
 </Window>
