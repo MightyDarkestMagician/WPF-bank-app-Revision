@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AbankHW12.Models.Client.BankAccounts
 {
@@ -20,13 +21,14 @@ namespace AbankHW12.Models.Client.BankAccounts
         protected int       balance = 0;                             // Текущий баланс счета, начальное значение равно 0
 
         // Свойства для доступа к защищенным полям                   
-        public int      AccountId   { get => accountId; }            // Свойство для получения ID счёта                     
-        public string   AccountName { get => accountName; }          // Свойство для получения имени счёта  
-        public string   Color       { get => color; }                // Свойство для получения цвета  
-        public int      Balance     { get => balance; }              // Свойство для получения текущего баланса 
+        public int      AccountId   { get => accountId; }                   // Свойство для получения ID счёта                     
+        public string   AccountName { get => accountName; }                 // Свойство для получения имени счёта  
+        public string   Color       { get => color; }                       // Свойство для получения цвета  
+        public int      Balance     { get => balance; }                     // Свойство для получения текущего баланса 
+        public string Info { get { return $"{AccountName}  {Balance}"; } }  // Краткая сводка данных счёта
 
         // Метод для добавления денег на счет
-        public void Deposit(int amount)
+        public void Put(int amount)
         {
             balance += amount;                              
         }

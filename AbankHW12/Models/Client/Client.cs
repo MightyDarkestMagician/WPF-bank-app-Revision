@@ -1,11 +1,14 @@
 ﻿using AbankHW12.Models.Client.BankAccounts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AbankHW12.Models.Client
 {
@@ -34,9 +37,11 @@ namespace AbankHW12.Models.Client
         private int     phoneNumber;                        // Телефонный номер
 
 
-        // Объекты для управления банковскими счетами
-        private Deposit depositAccount = new Deposit();     // Депозитный счет
-        private Credit creditAccount = new Credit();        // Кредитный  счет
+        // Коллекция для управления банковскими счетами с предсозданными счетами
+        private ObservableCollection<BankAccount> bankAccounts = new ObservableCollection<BankAccount> { new Credit(), new Deposit() };
+
+
+        
 
 
         // Свойства для доступа и управления полями класса
@@ -45,8 +50,10 @@ namespace AbankHW12.Models.Client
         public string   Patronymic      { get => patronymic;     set => patronymic = value; }                  // Используем для отчества 
         public string   PassportNumber  { get => passportNumber; set => passportNumber = value; }       
         public int      PhoneNumber     { get => phoneNumber;    set => phoneNumber = value; }
-        public Deposit  DepositAccount  { get => depositAccount; }
-        public Credit   CreditAccount   { get => creditAccount; }
+
+        public ObservableCollection<BankAccount> BankAccounts { get { return bankAccounts; } set { bankAccounts = value; } }
+        public string Info { get { return $"{FirstName} {LastName} - {PhoneNumber}"; } } //краткая сводка информации о пользователе
+
 
         public Client(string firstName, string lastName, string patronymic, int phoneNumber, string passportNumber)
         {
@@ -61,8 +68,9 @@ namespace AbankHW12.Models.Client
         public Client(string firstName, string lastName, string patronymic, int phoneNumber, string passportNumber, int depositAmount, int creditAmount)
             : this(firstName, lastName, patronymic, phoneNumber, passportNumber)
         {
-            depositAccount.Deposit(depositAmount);  // Внесение суммы на депозитный счет
-            creditAccount.Deposit(creditAmount);    // Внесение суммы на кредитный счет
+            this.BankAccounts[0].Put(depositAmount); // Внесение суммы на депозитный счет
+            this.BankAccounts[1].Put(creditAmount); // Внесение суммы на кредитный счет
+
         }
     }
 }
